@@ -6,8 +6,7 @@
 //   REACT_APP_API_URL=https://nompus.com/api
 // ---------------------------------------------------------------------------
 
-// const DEFAULT_BASE_URL = "https://nompus.com/api";
-const DEFAULT_BASE_URL = "http://localhost/nopm-api";
+const DEFAULT_BASE_URL = "https://nompus.com/api";
 
 function getBaseUrl() {
   if (typeof process !== "undefined" && process.env?.REACT_APP_API_URL) {

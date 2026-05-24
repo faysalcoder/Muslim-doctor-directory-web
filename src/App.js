@@ -26,7 +26,7 @@ import ContactPage from "./pages/ContactPage";
 import DoctorProfilePage from "./pages/DoctorProfilePage";
 import ComingSoonModal from "./components/ComingSoonModal";
 
-const SITE_MODE = 1;
+const SITE_MODE = 0;
 
 export default function App() {
   return (
@@ -35,11 +35,14 @@ export default function App() {
       <Route path="/doctor-login" element={<DoctorLogin />} />
       <Route path="/doctor-signup" element={<DoctorSignup />} />
 
-      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route
+        path="/admin"
+        element={<Navigate to="/admin/dashboard" replace />}
+      />
       <Route
         path="/admin/dashboard"
         element={
-          <ProtectedRoute roles={['admin', 'super_admin']}>
+          <ProtectedRoute roles={["admin", "super_admin"]}>
             <Dashboard />
           </ProtectedRoute>
         }
@@ -47,7 +50,7 @@ export default function App() {
       <Route
         path="/admin/doctors"
         element={
-          <ProtectedRoute roles={['admin', 'super_admin']}>
+          <ProtectedRoute roles={["admin", "super_admin"]}>
             <Doctors />
           </ProtectedRoute>
         }
@@ -55,7 +58,7 @@ export default function App() {
       <Route
         path="/admin/users"
         element={
-          <ProtectedRoute roles={['admin', 'super_admin']}>
+          <ProtectedRoute roles={["admin", "super_admin"]}>
             <MemberUsers />
           </ProtectedRoute>
         }
@@ -63,7 +66,7 @@ export default function App() {
       <Route
         path="/admin/forum"
         element={
-          <ProtectedRoute roles={['admin', 'super_admin']}>
+          <ProtectedRoute roles={["admin", "super_admin"]}>
             <ForumModeration />
           </ProtectedRoute>
         }
@@ -71,7 +74,7 @@ export default function App() {
       <Route
         path="/admin/jobs"
         element={
-          <ProtectedRoute roles={['admin', 'super_admin']}>
+          <ProtectedRoute roles={["admin", "super_admin"]}>
             <JobsAdmin />
           </ProtectedRoute>
         }
@@ -79,7 +82,7 @@ export default function App() {
       <Route
         path="/admin/settings"
         element={
-          <ProtectedRoute roles={['admin', 'super_admin']}>
+          <ProtectedRoute roles={["admin", "super_admin"]}>
             <Settings />
           </ProtectedRoute>
         }
@@ -97,18 +100,56 @@ export default function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/doctor/:id" element={<DoctorProfilePage />} />
           <Route path="/forum" element={<ForumList />} />
-          <Route path="/forum/create" element={<ProtectedRoute roles={['member', 'admin', 'super_admin']}><CreateForumPost /></ProtectedRoute>} />
+          <Route
+            path="/forum/create"
+            element={
+              <ProtectedRoute roles={["member", "admin", "super_admin"]}>
+                <CreateForumPost />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/forum/:id" element={<ForumDetail />} />
           <Route path="/jobs" element={<JobsPage />} />
-          <Route path="/jobs/create" element={<ProtectedRoute roles={['member', 'admin', 'super_admin']}><CreateJobPost /></ProtectedRoute>} />
+          <Route
+            path="/jobs/create"
+            element={
+              <ProtectedRoute roles={["member", "admin", "super_admin"]}>
+                <CreateJobPost />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/jobs/available" element={<AvailableDoctorsPage />} />
-          <Route path="/account" element={<ProtectedRoute roles={['member']}><MemberDashboard /></ProtectedRoute>} />
-          <Route path="/account/profile" element={<ProtectedRoute roles={['member']}><MemberProfile /></ProtectedRoute>} />
-          <Route path="/account/posts" element={<ProtectedRoute roles={['member']}><YourPosts /></ProtectedRoute>} />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute roles={["member"]}>
+                <MemberDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/account/profile"
+            element={
+              <ProtectedRoute roles={["member"]}>
+                <MemberProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/account/posts"
+            element={
+              <ProtectedRoute roles={["member"]}>
+                <YourPosts />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       )}
 
-      <Route path="*" element={<Navigate to={SITE_MODE === 0 ? "/" : "/"} replace />} />
+      <Route
+        path="*"
+        element={<Navigate to={SITE_MODE === 0 ? "/" : "/"} replace />}
+      />
     </Routes>
   );
 }
