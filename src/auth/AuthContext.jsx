@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { clearSession, getStoredToken, getStoredUser, saveSession } from "../api/axios";
 
 const AuthContext = createContext(null);
 
@@ -9,25 +10,19 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-
-    if (storedUser && token) {
-      setUser(JSON.parse(storedUser));
-    }
-
+    const storedUser = getStoredUser();
+    const token = getStoredToken();
+    if (storedUser && token) setUser(storedUser);
     setLoading(false);
   }, []);
 
   const login = (userData, token) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", token);
+    saveSession(userData, token);
     setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    clearSession();
     setUser(null);
   };
 

@@ -6,6 +6,15 @@ const statusStyles = {
   inactive: 'bg-gray-100 text-gray-500',
 };
 
+function EyeIcon() {
+  return (
+    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+      <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+    </svg>
+  );
+}
+
 export default function DoctorTable({ doctors, onView, onEdit, onDelete, onToggleStatus }) {
   return (
     <div className="bg-white rounded-2xl border border-[#e1e3e4] shadow-sm overflow-x-auto">
@@ -103,9 +112,13 @@ export default function DoctorTable({ doctors, onView, onEdit, onDelete, onToggl
               {/* Actions */}
               <td className="px-4 py-4">
                 <div className="flex items-center justify-center gap-1.5">
-                  <button onClick={() => onView(doctor)}
-                    className="px-2.5 py-1.5 rounded-lg border border-[#bfc9c4] text-xs font-medium hover:bg-gray-50 transition whitespace-nowrap">
-                    View
+                  {/* Eye / View button */}
+                  <button
+                    onClick={() => onView(doctor)}
+                    title="View all doctor info"
+                    className="p-2 rounded-lg border border-[#bfc9c4] text-[#3f4945] hover:bg-gray-50 hover:text-[#00342b] transition"
+                  >
+                    <EyeIcon />
                   </button>
                   <button onClick={() => onEdit(doctor)}
                     className="px-2.5 py-1.5 rounded-lg border border-[#00342b] text-[#00342b] text-xs font-medium hover:bg-emerald-50 transition whitespace-nowrap">

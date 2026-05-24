@@ -13,7 +13,9 @@ export default function Login() {
   const [showPw, setShowPw] = useState(false);
 
   useEffect(() => {
-    if (user) navigate("/admin/dashboard", { replace: true });
+    if (!user) return;
+    if (user.role === 'member') navigate('/account', { replace: true });
+    else navigate('/admin/dashboard', { replace: true });
   }, [user, navigate]);
 
   const handleChange = (e) =>
@@ -27,10 +29,9 @@ export default function Login() {
       const res = await loginAdmin(form.email.trim(), form.password);
 
       if (res?.success && res.token) {
-        // Real backend login succeeded
         login(res.user, res.token);
         toast.success(`Welcome back, ${res.user?.name || "Admin"}!`);
-        navigate("/admin/dashboard");
+        navigate(res.user?.role === 'member' ? '/account' : '/admin/dashboard', { replace: true });
       } else {
         toast.error(res?.message || "Invalid credentials");
       }
@@ -68,10 +69,6 @@ export default function Login() {
           </p>
 
           {/* Credentials hint */}
-          <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-6 text-sm text-amber-700">
-            <span className="font-semibold">Default credentials:</span>{" "}
-            admin@nomp.com / admin123
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -84,7 +81,7 @@ export default function Login() {
                 required
                 value={form.email}
                 onChange={handleChange}
-                placeholder="admin@nomp.com"
+                placeholder="admin@example.com"
                 className="w-full h-[52px] border border-gray-300 rounded-xl px-4 focus:ring-2 focus:ring-[#00342b] focus:border-[#00342b] outline-none transition text-base"
               />
             </div>
@@ -181,7 +178,11 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <div className="flex items-center gap-4 text-sm">
+              <Link to="/doctor-login" className="text-[#00342b] font-medium hover:underline">Doctor login</Link>
+              <Link to="/doctor-signup" className="text-[#00342b] font-medium hover:underline">Doctor signup</Link>
+            </div>
             <Link
               to="/"
               className="text-sm text-[#00342b] font-medium hover:underline"
