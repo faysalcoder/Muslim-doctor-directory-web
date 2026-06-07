@@ -1,33 +1,73 @@
 import React, { useState } from "react";
 import AddDoctorModal from "./AddDoctorModal";
 
-export default function ComingSoonModal() {
+const STORAGE_KEY = "nmp_welcome_popup_dismissed";
+
+/**
+ * WelcomePopup — shown on the HomePage when the user first lands.
+ * After closing it is never shown again (localStorage flag).
+ *
+ * Usage:
+ *   const [show, setShow] = useState(
+ *     () => !localStorage.getItem("nmp_welcome_popup_dismissed")
+ *   );
+ *   {show && <ComingSoonModal onClose={() => setShow(false)} />}
+ */
+export default function ComingSoonModal({ onClose }) {
   const [showApply, setShowApply] = useState(false);
+
+  const handleClose = () => {
+    localStorage.setItem(STORAGE_KEY, "1");
+    if (onClose) onClose();
+  };
 
   return (
     <>
-      {/* Full-screen dark overlay — blocks everything underneath */}
-      <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-        {/* Card */}
-        <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden">
-          {/* Top image */}
+      {/* Overlay */}
+      <div
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+        onClick={handleClose}
+      >
+        {/* Card — stop click bubbling so clicking inside doesn't close */}
+        <div
+          className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* ✕ Close button */}
+          <button
+            onClick={handleClose}
+            aria-label="Close popup"
+            className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 active:scale-95 transition-all text-white shadow"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          {/* Banner image */}
           <div
             className="relative w-full bg-[#00342b]"
-            style={{ height: "650px" }}
+            style={{ height: "525px" }}
           >
             <img
               src={`${process.env.PUBLIC_URL}/assets/doctor-banner-1.jpg`}
               alt="Network of Muslim Physicians"
               className="w-full h-full object-cover"
             />
-            {/* Gradient overlay on image */}
-            {/* <div className="absolute inset-0 bg-gradient-to-b from-[#00342b]/40 to-[#00342b]/80" /> */}
           </div>
 
           {/* Bottom section */}
           <div className="px-8 py-7 flex flex-col items-center text-center gap-4 bg-white">
-            {/* Description */}
-
             {/* CTA Button */}
             <button
               onClick={() => setShowApply(true)}
@@ -51,7 +91,7 @@ export default function ComingSoonModal() {
 
             {/* Footer note */}
             <p className="text-xs text-gray-400">
-              Your join request will be reviewed .
+              Your join request will be reviewed.
             </p>
           </div>
         </div>

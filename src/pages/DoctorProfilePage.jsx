@@ -113,8 +113,14 @@ export default function DoctorProfilePage() {
     return [];
   }, [doctor, d]);
 
-  const degreeSummary = useMemo(() => d?.degree || d?.graduation_degree || "", [d]);
-  const yearGraduated = useMemo(() => d?.year_graduated || d?.graduation_year || "", [d]);
+  const degreeSummary = useMemo(
+    () => d?.degree || d?.graduation_degree || "",
+    [d],
+  );
+  const yearGraduated = useMemo(
+    () => d?.year_graduated || d?.graduation_year || "",
+    [d],
+  );
 
   const titleLine = useMemo(() => {
     return [d?.practice, d?.category].filter(Boolean).join(" — ");
@@ -589,7 +595,9 @@ export default function DoctorProfilePage() {
 
                 <InfoRow
                   label="Medical School Attended"
-                  value={d.medical_school_attended || d.medical_school_affiliation}
+                  value={
+                    d.medical_school_attended || d.medical_school_affiliation
+                  }
                   icon={
                     <svg
                       className="h-5 w-5"
@@ -936,7 +944,7 @@ export default function DoctorProfilePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
             {others.slice(0, 5).map((doc) => (
               <DoctorCardHome key={doc.id} doctor={doc} />
             ))}

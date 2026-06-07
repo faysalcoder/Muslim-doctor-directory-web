@@ -26,7 +26,7 @@ import ContactPage from "./pages/ContactPage";
 import DoctorProfilePage from "./pages/DoctorProfilePage";
 import ComingSoonModal from "./components/ComingSoonModal";
 
-const SITE_MODE = 0;
+const SITE_MODE = 1;
 
 export default function App() {
   return (

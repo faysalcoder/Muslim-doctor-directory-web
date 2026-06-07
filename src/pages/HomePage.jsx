@@ -4,6 +4,9 @@ import { DoctorCardHome } from "../components/DoctorCard";
 import { specialties as fallbackSpecialties, locations as fallbackLocations } from "../data/demoData";
 import { getPublicDoctors, getFilterOptions } from "../api/axios";
 import AddDoctorModal from "../components/AddDoctorModal";
+import ComingSoonModal from "../components/ComingSoonModal";
+
+const POPUP_KEY = "nmp_welcome_popup_dismissed";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -16,6 +19,11 @@ export default function HomePage() {
   const [specialties, setSpecialties] = useState(fallbackSpecialties);
   const [locations, setLocations] = useState(fallbackLocations);
   const [doctorModalOpen, setDoctorModalOpen] = useState(false);
+
+  // Welcome popup: show only if never dismissed before
+  const [showWelcomePopup, setShowWelcomePopup] = useState(
+    () => !localStorage.getItem(POPUP_KEY)
+  );
 
   useEffect(() => {
     // Load featured doctors
@@ -323,6 +331,11 @@ export default function HomePage() {
       </section>
 
       <AddDoctorModal open={doctorModalOpen} onClose={() => setDoctorModalOpen(false)} />
+
+      {/* Welcome popup — shows on first visit, never again after closing */}
+      {showWelcomePopup && (
+        <ComingSoonModal onClose={() => setShowWelcomePopup(false)} />
+      )}
 
       {/* How It Works */}
       <section className="bg-gray-50/50 py-16 md:py-24 rounded-t-[3rem] md:rounded-t-[5rem]">
